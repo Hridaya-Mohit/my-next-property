@@ -237,7 +237,7 @@ class MNPDrawer extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'info@urbanedgerealty.in',
+                    'info@mynextproperty.in',
                     style: GoogleFonts.lato(
                       fontSize: 12,
                       fontWeight: FontWeight.w300,

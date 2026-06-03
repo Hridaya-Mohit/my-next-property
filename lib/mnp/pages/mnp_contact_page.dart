@@ -312,7 +312,7 @@ class _ContactInfo extends StatelessWidget {
         _contactBlock(
           Icons.email_outlined,
           'Email',
-          'info@urbanedgerealty.in\nluxury@urbanedgerealty.in',
+          'info@mynextproperty.in\nluxury@mynextproperty.in',
         ),
         const SizedBox(height: 48),
         Container(height: 1, color: MNPColors.lightGrey),
