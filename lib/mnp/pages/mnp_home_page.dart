@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
 import '../mnp_analytics.dart';
+import '../widgets/mnp_animated_section.dart';
 import '../widgets/mnp_page_scaffold.dart';
 
 class MNPHomePage extends StatelessWidget {
@@ -16,11 +17,11 @@ class MNPHomePage extends StatelessWidget {
       body: Column(
         children: [
           _HeroSection(),
-          _PortfolioSection(),
-          _PhilosophySection(),
-          _ServicesSection(),
-          _DeveloperSection(),
-          _CTASection(),
+          MNPAnimatedSection(child: _PortfolioSection()),
+          MNPAnimatedSection(child: _PhilosophySection()),
+          MNPAnimatedSection(child: _ServicesSection()),
+          MNPAnimatedSection(child: _DeveloperSection()),
+          MNPAnimatedSection(child: _CTASection()),
         ],
       ),
     );
