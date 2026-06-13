@@ -7,7 +7,7 @@ _Nothing currently in progress._
 
 ### UX / Interactions
 - [x] Scroll-triggered fade/slide-in animations for page sections (all pages)
-- [ ] Animated statistics counter on home page (e.g. "500+ properties", "15+ years")
+- [x] Animated statistics counter on home page (15+ years, ₹2000 Cr+, 8+ developers, 500+ clients)
 - [ ] Smooth animated page transitions between routes
 - [x] Splash screen with gold line reveal animation
 - [x] Navbar background transition on scroll
