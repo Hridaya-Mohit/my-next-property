@@ -38,7 +38,8 @@ _Nothing currently in progress._
 - [ ] Add og:image tags in `web/index.html`
 - [ ] Add sitemap.xml
 - [ ] Add robots.txt
-- [x] Add Google Analytics GA4 + Microsoft Clarity
+- [x] Add Google Analytics GA4 + Microsoft Clarity (Clarity has limited value on Flutter web — canvas rendering prevents session recordings and heatmaps from working)
+- [ ] Remove Clarity script from `index.html` once PostHog is integrated
 - [ ] Add GA4 hostname filter to only count traffic from `mynextproperty.in` (GA4 → Admin → Data Streams → your stream → Configure tag settings → hostname filters)
 - [ ] Move GA4 and Clarity IDs to GitHub repository secrets and inject via environment variables at build time in GitHub Actions
 
@@ -53,7 +54,7 @@ _Better long-term replacements for current implementations. Not urgent — revis
 - [ ] **Firebase Firestore + Trigger Email extension** — replaces EmailJS. Every submission is saved as a lead in Firestore (queryable database of all enquiries) and simultaneously triggers an email notification. Gives you a full CRM-like lead history, not just inbox emails.
 
 ### Analytics
-- [ ] **PostHog** — replaces GA4 + Clarity with a single unified platform. Gives you event tracking, session recordings, heatmaps, funnels, and user journeys all in one place. Open-source and can be self-hosted for full data ownership with no monthly cost.
+- [ ] **PostHog** — supplement GA4 with richer product analytics (funnels, user journeys, retention, heatmaps via code events). Works perfectly with Flutter web canvas rendering since it tracks via Dart events not DOM. Session recordings have same canvas limitation as Clarity. Free tier: 1M events/month. Self-hostable.
 
 ## Completed
 - [x] Initial site scaffold (Home, About, Leadership, Services, Gallery, Contact)
