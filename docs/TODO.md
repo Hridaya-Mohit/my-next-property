@@ -9,10 +9,10 @@ _Nothing currently in progress._
 - [ ] Scroll-triggered fade/slide-in animations for page sections
 - [ ] Animated statistics counter on home page (e.g. "500+ properties", "15+ years")
 - [ ] Smooth animated page transitions between routes
-- [ ] Navbar background transition on scroll (currently wired but `_scrolled` never set to true)
+- [x] Splash screen with gold line reveal animation
+- [x] Navbar background transition on scroll
 
 ### Navigation
-- [ ] Wire scroll listener in `MNPNavbar` to actually toggle `_scrolled` state
 - [ ] Active state highlight in mobile drawer (currently missing)
 
 ### Home Page
@@ -34,7 +34,8 @@ _Nothing currently in progress._
 - [ ] Add RERA registration number
 
 ### SEO & Web
-- [ ] Add meta title, description, og:image tags in `web/index.html`
+- [x] Fix page title and meta description in `web/index.html`
+- [ ] Add og:image tags in `web/index.html`
 - [ ] Add sitemap.xml
 - [ ] Add robots.txt
 - [x] Add Google Analytics GA4 + Microsoft Clarity
@@ -61,3 +62,9 @@ _Better long-term replacements for current implementations. Not urgent — revis
 - [x] Footer with brand, navigation, and contact columns
 - [x] GitHub Actions deployment to GitHub Pages
 - [x] Custom domain `mynextproperty.in` configured
+- [x] GA4 + Microsoft Clarity analytics
+- [x] GA4 SPA page tracking via NavigatorObserver
+- [x] Contact form submission via EmailJS
+- [x] WhatsApp buttons wired with pre-filled message
+- [x] Splash screen with gold line reveal animation
+- [x] Navbar scroll-aware background
