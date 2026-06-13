@@ -46,7 +46,8 @@ _Nothing currently in progress._
 
 ### Content
 - [ ] Replace Unsplash placeholder images with real property photos
-- [ ] Add real team bios and headshots to Leadership page
+- [x] Updated leadership page to single member (Vishal Kathuria) with placeholder image
+- [ ] Add real headshot for Vishal Kathuria
 
 ## Enhancements
 _Better long-term replacements for current implementations. Not urgent — revisit when the site scales._
