@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import '../theme/mnp_theme.dart';
 import 'mnp_navbar.dart';
 import 'mnp_footer.dart';
 
-/// Wraps a page with the transparent overlay navbar (positioned over a dark hero)
-/// and footer at bottom. The [body] should include its own hero section first.
-class MNPPageScaffold extends StatelessWidget {
+class MNPPageScaffold extends StatefulWidget {
   final String activePage;
   final Widget body;
 
@@ -15,6 +14,31 @@ class MNPPageScaffold extends StatelessWidget {
   });
 
   @override
+  State<MNPPageScaffold> createState() => _MNPPageScaffoldState();
+}
+
+class _MNPPageScaffoldState extends State<MNPPageScaffold> {
+  final _scrollController = ScrollController();
+  bool _scrolled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      final isScrolled = _scrollController.offset > 80;
+      if (isScrolled != _scrolled) {
+        setState(() => _scrolled = isScrolled);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAF7F2),
@@ -22,19 +46,22 @@ class MNPPageScaffold extends StatelessWidget {
       body: Stack(
         children: [
           SingleChildScrollView(
+            controller: _scrollController,
             child: Column(
               children: [
-                body,
+                widget.body,
                 const MNPFooter(),
               ],
             ),
           ),
-          // Fixed transparent navbar overlaid on top
           Positioned(
             top: 0,
             left: 0,
             right: 0,
-            child: _ScrollAwareNavbar(activePage: activePage),
+            child: _ScrollAwareNavbar(
+              activePage: widget.activePage,
+              scrolled: _scrolled,
+            ),
           ),
         ],
       ),
@@ -42,32 +69,35 @@ class MNPPageScaffold extends StatelessWidget {
   }
 }
 
-class _ScrollAwareNavbar extends StatefulWidget {
+class _ScrollAwareNavbar extends StatelessWidget {
   final String activePage;
-  const _ScrollAwareNavbar({required this.activePage});
+  final bool scrolled;
 
-  @override
-  State<_ScrollAwareNavbar> createState() => _ScrollAwareNavbarState();
-}
+  const _ScrollAwareNavbar({
+    required this.activePage,
+    required this.scrolled,
+  });
 
-class _ScrollAwareNavbarState extends State<_ScrollAwareNavbar> {
-  // Navbar is always shown as transparent overlay; solid bg handled in MNPNavbar
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black.withOpacity(0.6),
-            Colors.transparent,
-          ],
-        ),
+        color: scrolled ? MNPColors.charcoal.withOpacity(0.97) : Colors.transparent,
+        gradient: scrolled
+            ? null
+            : LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withOpacity(0.6),
+                  Colors.transparent,
+                ],
+              ),
       ),
       child: SafeArea(
         bottom: false,
-        child: MNPNavbar(activePage: widget.activePage),
+        child: MNPNavbar(activePage: activePage),
       ),
     );
   }
