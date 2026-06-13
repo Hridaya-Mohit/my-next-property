@@ -114,6 +114,16 @@ class _MNPSplashState extends State<MNPSplash>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // Logo image — fades in before the line
+                    FadeTransition(
+                      opacity: _logoOpacity,
+                      child: Image.asset(
+                        'assets/images/mnp_logo_without_bg_1.png',
+                        height: 80,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
                     // Gold line — isolated AnimatedBuilder, only redraws the line
                     AnimatedBuilder(
                       animation: _lineWidth,
@@ -131,19 +141,13 @@ class _MNPSplashState extends State<MNPSplash>
                       ),
                     ),
                     const SizedBox(height: 24),
-                    // Logo — GPU-accelerated fade + slide
+                    // Logo text — GPU-accelerated fade + slide
                     FadeTransition(
                       opacity: _logoOpacity,
                       child: SlideTransition(
                         position: _logoSlide,
                         child: Column(
                           children: [
-                            Image.asset(
-                              'assets/images/mnp_logo_without_bg_1.png',
-                              height: 80,
-                              fit: BoxFit.contain,
-                            ),
-                            const SizedBox(height: 20),
                             Text(
                               'MY NEXT',
                               style: GoogleFonts.cormorantGaramond(
