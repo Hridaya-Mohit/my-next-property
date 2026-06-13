@@ -39,6 +39,7 @@ _Nothing currently in progress._
 - [ ] Add sitemap.xml
 - [ ] Add robots.txt
 - [x] Add Google Analytics GA4 + Microsoft Clarity (Clarity has limited value on Flutter web — canvas rendering prevents session recordings and heatmaps from working)
+- [x] Add GA4 CTA event tracking across all buttons (cta_click + form_submit events)
 - [ ] Remove Clarity script from `index.html` once PostHog is integrated
 - [ ] Add GA4 hostname filter to only count traffic from `mynextproperty.in` (GA4 → Admin → Data Streams → your stream → Configure tag settings → hostname filters)
 - [ ] Move GA4 and Clarity IDs to GitHub repository secrets and inject via environment variables at build time in GitHub Actions
@@ -65,6 +66,7 @@ _Better long-term replacements for current implementations. Not urgent — revis
 - [x] Custom domain `mynextproperty.in` configured
 - [x] GA4 + Microsoft Clarity analytics
 - [x] GA4 SPA page tracking via NavigatorObserver
+- [x] GA4 CTA event tracking (cta_click + form_submit)
 - [x] Contact form submission via EmailJS
 - [x] WhatsApp buttons wired with pre-filled message
 - [x] Splash screen with gold line reveal animation
