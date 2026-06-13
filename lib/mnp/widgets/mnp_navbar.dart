@@ -82,38 +82,27 @@ class _MNPNavbarState extends State<MNPNavbar> {
   Widget _buildLogo() {
     return GestureDetector(
       onTap: () => _navigate(MNPRoutes.home),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            'assets/images/mnp_logo_without_bg_1.png',
-            height: 36,
-            fit: BoxFit.contain,
+          Text(
+            'MY NEXT',
+            style: GoogleFonts.cormorantGaramond(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: MNPColors.white,
+              letterSpacing: 4,
+            ),
           ),
-          const SizedBox(width: 10),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'MY NEXT',
-                style: GoogleFonts.cormorantGaramond(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: MNPColors.white,
-                  letterSpacing: 4,
-                ),
-              ),
-              Text(
-                'PROPERTY',
-                style: GoogleFonts.lato(
-                  fontSize: 9,
-                  fontWeight: FontWeight.w400,
-                  color: MNPColors.gold,
-                  letterSpacing: 6,
-                ),
-              ),
-            ],
+          Text(
+            'PROPERTY',
+            style: GoogleFonts.lato(
+              fontSize: 9,
+              fontWeight: FontWeight.w400,
+              color: MNPColors.gold,
+              letterSpacing: 6,
+            ),
           ),
         ],
       ),
@@ -204,37 +193,26 @@ class MNPDrawer extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.asset(
-                        'assets/images/mnp_logo_without_bg_1.png',
-                        height: 32,
-                        fit: BoxFit.contain,
+                      Text(
+                        'MY NEXT',
+                        style: GoogleFonts.cormorantGaramond(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: MNPColors.white,
+                          letterSpacing: 4,
+                        ),
                       ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'MY NEXT',
-                            style: GoogleFonts.cormorantGaramond(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: MNPColors.white,
-                              letterSpacing: 4,
-                            ),
-                          ),
-                          Text(
-                            'PROPERTY',
-                            style: GoogleFonts.lato(
-                              fontSize: 8,
-                              fontWeight: FontWeight.w400,
-                              color: MNPColors.gold,
-                              letterSpacing: 6,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        'PROPERTY',
+                        style: GoogleFonts.lato(
+                          fontSize: 8,
+                          fontWeight: FontWeight.w400,
+                          color: MNPColors.gold,
+                          letterSpacing: 6,
+                        ),
                       ),
                     ],
                   ),

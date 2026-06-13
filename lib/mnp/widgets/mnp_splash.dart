@@ -138,6 +138,12 @@ class _MNPSplashState extends State<MNPSplash>
                         position: _logoSlide,
                         child: Column(
                           children: [
+                            Image.asset(
+                              'assets/images/mnp_logo_without_bg_1.png',
+                              height: 80,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(height: 20),
                             Text(
                               'MY NEXT',
                               style: GoogleFonts.cormorantGaramond(
