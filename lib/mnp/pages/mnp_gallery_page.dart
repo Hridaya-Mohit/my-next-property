@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
+import '../widgets/mnp_animated_section.dart';
 import '../widgets/mnp_page_scaffold.dart';
 
 class MNPGalleryPage extends StatefulWidget {
@@ -83,7 +84,7 @@ class _MNPGalleryPageState extends State<MNPGalleryPage> {
       body: Column(
         children: [
           _GalleryHero(),
-          _buildGalleryContent(context),
+          MNPAnimatedSection(child: _buildGalleryContent(context)),
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
+import '../widgets/mnp_animated_section.dart';
 import '../widgets/mnp_page_scaffold.dart';
 
 class MNPAboutPage extends StatelessWidget {
@@ -15,11 +16,11 @@ class MNPAboutPage extends StatelessWidget {
       body: Column(
         children: [
           _AboutHero(),
-          _StorySection(),
-          _VMPSection(),
-          _DifferentiatorsSection(),
-          _TimelineSection(),
-          _AboutCTA(),
+          MNPAnimatedSection(child: _StorySection()),
+          MNPAnimatedSection(child: _VMPSection()),
+          MNPAnimatedSection(child: _DifferentiatorsSection()),
+          MNPAnimatedSection(child: _TimelineSection()),
+          MNPAnimatedSection(child: _AboutCTA()),
         ],
       ),
     );

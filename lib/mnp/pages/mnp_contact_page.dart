@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
 import '../mnp_analytics.dart';
+import '../widgets/mnp_animated_section.dart';
 import '../widgets/mnp_page_scaffold.dart';
 
 const _whatsAppUrl = 'https://wa.me/919818812223?text=Hi%2C%20I%27d%20like%20to%20schedule%20a%20consultation%20regarding%20a%20property.';
@@ -30,7 +31,7 @@ class _MNPContactPageState extends State<MNPContactPage> {
       body: Column(
         children: [
           _ContactHero(),
-          _ContactBody(),
+          MNPAnimatedSection(child: _ContactBody()),
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
+import '../widgets/mnp_animated_section.dart';
 import '../widgets/mnp_page_scaffold.dart';
 
 class MNPLeadershipPage extends StatelessWidget {
@@ -15,9 +16,9 @@ class MNPLeadershipPage extends StatelessWidget {
       body: Column(
         children: [
           _LeadershipHero(),
-          _LeadershipIntro(),
-          _TeamSection(),
-          _ConsultationCTA(),
+          MNPAnimatedSection(child: _LeadershipIntro()),
+          MNPAnimatedSection(child: _TeamSection()),
+          MNPAnimatedSection(child: _ConsultationCTA()),
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
+import '../widgets/mnp_animated_section.dart';
 import '../widgets/mnp_page_scaffold.dart';
 
 class MNPServicesPage extends StatelessWidget {
@@ -16,12 +17,15 @@ class MNPServicesPage extends StatelessWidget {
         children: [
           _ServicesHero(),
           ..._serviceData.asMap().entries.map(
-                (e) => _ServiceDetailSection(
-                  service: e.value,
-                  reversed: e.key % 2 == 1,
+                (e) => MNPAnimatedSection(
+                  key: ValueKey('service_${e.key}'),
+                  child: _ServiceDetailSection(
+                    service: e.value,
+                    reversed: e.key % 2 == 1,
+                  ),
                 ),
               ),
-          _ServicesCTA(),
+          MNPAnimatedSection(child: _ServicesCTA()),
         ],
       ),
     );
