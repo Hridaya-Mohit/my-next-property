@@ -25,8 +25,8 @@ _Nothing currently in progress._
 - [x] Client-side form validation with visual feedback
 
 ### Gallery Page
-- [ ] Lightbox / fullscreen image viewer
-- [ ] Category filtering (Residential, Commercial, Industrial)
+- [x] Lightbox / fullscreen image viewer
+- [x] Category filtering (Residential, Commercial, Industrial)
 
 ### Footer
 - [ ] Wire social icon buttons (LinkedIn, Instagram, etc.) to real URLs
@@ -35,9 +35,9 @@ _Nothing currently in progress._
 
 ### SEO & Web
 - [x] Fix page title and meta description in `web/index.html`
-- [ ] Add og:image tags in `web/index.html`
-- [ ] Add sitemap.xml
-- [ ] Add robots.txt
+- [x] Add og:image tags in `web/index.html`
+- [x] Add sitemap.xml
+- [x] Add robots.txt
 - [x] Add Google Analytics GA4 + Microsoft Clarity (Clarity has limited value on Flutter web — canvas rendering prevents session recordings and heatmaps from working)
 - [x] Add GA4 CTA event tracking across all buttons (cta_click + form_submit events)
 - [ ] Remove Clarity script from `index.html` once PostHog is integrated
@@ -47,7 +47,7 @@ _Nothing currently in progress._
 ### Content
 - [ ] Replace Unsplash placeholder images with real property photos
 - [x] Updated leadership page to single member (Vishal Kathuria) with placeholder image
-- [ ] Add real headshot for Vishal Kathuria
+- [x] Add real headshot for Vishal Kathuria
 
 ## Enhancements
 _Better long-term replacements for current implementations. Not urgent — revisit when the site scales._
