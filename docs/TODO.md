@@ -16,7 +16,7 @@ _Nothing currently in progress._
 - [x] Active state highlight in mobile drawer (gold text + left border)
 
 ### Home Page
-- [ ] Add testimonials / client quotes section
+- [x] Add testimonials / client quotes section (placeholder content — replace with real quotes)
 - [ ] Replace developer name text with actual logos in the Developer Associations section
 - [x] Floating WhatsApp CTA button (quick contact widget)
 
