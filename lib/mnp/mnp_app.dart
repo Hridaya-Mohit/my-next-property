@@ -6,6 +6,7 @@ import 'pages/mnp_services_page.dart';
 import 'pages/mnp_gallery_page.dart';
 import 'pages/mnp_contact_page.dart';
 import 'theme/mnp_theme.dart';
+import 'mnp_analytics.dart';
 
 class MNPRoutes {
   static const String home = '/';
@@ -33,6 +34,7 @@ class MyNextPropertyApp extends StatelessWidget {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
       ),
+      navigatorObservers: [MNPAnalyticsObserver()],
       initialRoute: MNPRoutes.home,
       routes: {
         MNPRoutes.home: (ctx) => const MNPHomePage(),
