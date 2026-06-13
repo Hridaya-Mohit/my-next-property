@@ -18,10 +18,10 @@ _Nothing currently in progress._
 ### Home Page
 - [ ] Add testimonials / client quotes section
 - [ ] Replace developer name text with actual logos in the Developer Associations section
-- [ ] Floating WhatsApp CTA button (quick contact widget)
+- [x] Floating WhatsApp CTA button (quick contact widget)
 
 ### Contact Page
-- [ ] Form submission integration (email service / backend)
+- [x] Form submission via EmailJS
 - [ ] Client-side form validation with visual feedback
 
 ### Gallery Page
@@ -44,6 +44,15 @@ _Nothing currently in progress._
 ### Content
 - [ ] Replace Unsplash placeholder images with real property photos
 - [ ] Add real team bios and headshots to Leadership page
+
+## Enhancements
+_Better long-term replacements for current implementations. Not urgent — revisit when the site scales._
+
+### Form Submission
+- [ ] **Firebase Firestore + Trigger Email extension** — replaces EmailJS. Every submission is saved as a lead in Firestore (queryable database of all enquiries) and simultaneously triggers an email notification. Gives you a full CRM-like lead history, not just inbox emails.
+
+### Analytics
+- [ ] **PostHog** — replaces GA4 + Clarity with a single unified platform. Gives you event tracking, session recordings, heatmaps, funnels, and user journeys all in one place. Open-source and can be self-hosted for full data ownership with no monthly cost.
 
 ## Completed
 - [x] Initial site scaffold (Home, About, Leadership, Services, Gallery, Contact)
