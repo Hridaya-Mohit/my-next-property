@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
@@ -90,6 +91,14 @@ class _MNPGalleryPageState extends State<MNPGalleryPage> {
     );
   }
 
+  void _openLightbox(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.92),
+      builder: (ctx) => _LightboxDialog(items: _filtered, initialIndex: index),
+    );
+  }
+
   Widget _buildGalleryContent(BuildContext context) {
     final hPad = MNPDimensions.horizontalPadding(context);
     final isDesktop = MNPDimensions.isDesktop(context);
@@ -141,7 +150,10 @@ class _MNPGalleryPageState extends State<MNPGalleryPage> {
               childAspectRatio: 0.85,
             ),
             itemCount: _filtered.length,
-            itemBuilder: (ctx, i) => _GalleryCard(item: _filtered[i]),
+            itemBuilder: (ctx, i) => _GalleryCard(
+              item: _filtered[i],
+              onTap: () => _openLightbox(ctx, i),
+            ),
           ),
         ],
       ),
@@ -237,7 +249,8 @@ class _FilterTab extends StatelessWidget {
 
 class _GalleryCard extends StatefulWidget {
   final _GalleryItem item;
-  const _GalleryCard({required this.item});
+  final VoidCallback onTap;
+  const _GalleryCard({required this.item, required this.onTap});
 
   @override
   State<_GalleryCard> createState() => _GalleryCardState();
@@ -252,7 +265,7 @@ class _GalleryCardState extends State<_GalleryCard> {
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
-        onTap: () => _showFullscreen(context),
+        onTap: widget.onTap,
         child: ClipRRect(
           child: Stack(
             fit: StackFit.expand,
@@ -345,65 +358,171 @@ class _GalleryCardState extends State<_GalleryCard> {
     );
   }
 
-  void _showFullscreen(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierColor: Colors.black.withOpacity(0.9),
-      builder: (ctx) => GestureDetector(
-        onTap: () => Navigator.pop(ctx),
-        child: Stack(
-          children: [
-            Center(
-              child: widget.item.imageAsset != null
-                  ? Image.asset(
-                      widget.item.imageAsset!,
-                      fit: BoxFit.contain,
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: widget.item.imageUrl!,
-                      fit: BoxFit.contain,
-                    ),
-            ),
-            Positioned(
-              top: 40,
-              right: 40,
+}
+
+class _LightboxDialog extends StatefulWidget {
+  final List<_GalleryItem> items;
+  final int initialIndex;
+  const _LightboxDialog({required this.items, required this.initialIndex});
+
+  @override
+  State<_LightboxDialog> createState() => _LightboxDialogState();
+}
+
+class _LightboxDialogState extends State<_LightboxDialog> {
+  late int _index;
+  final _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _index = widget.initialIndex;
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _prev() {
+    if (_index > 0) setState(() => _index--);
+  }
+
+  void _next() {
+    if (_index < widget.items.length - 1) setState(() => _index++);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final item = widget.items[_index];
+    return KeyboardListener(
+      focusNode: _focusNode,
+      autofocus: true,
+      onKeyEvent: (e) {
+        if (e is KeyDownEvent) {
+          if (e.logicalKey == LogicalKeyboardKey.arrowLeft) _prev();
+          if (e.logicalKey == LogicalKeyboardKey.arrowRight) _next();
+          if (e.logicalKey == LogicalKeyboardKey.escape) Navigator.pop(context);
+        }
+      },
+      child: Stack(
+        children: [
+          // Tap background to close
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: const SizedBox.expand(),
+          ),
+          // Image
+          Center(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
               child: GestureDetector(
-                onTap: () => Navigator.pop(ctx),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  color: MNPColors.charcoal,
-                  child: const Icon(Icons.close,
-                      color: MNPColors.white, size: 20),
+                key: ValueKey(_index),
+                onTap: () {}, // prevent background tap from closing
+                child: item.imageAsset != null
+                    ? Image.asset(item.imageAsset!, fit: BoxFit.contain)
+                    : CachedNetworkImage(
+                        imageUrl: item.imageUrl!,
+                        fit: BoxFit.contain,
+                      ),
+              ),
+            ),
+          ),
+          // Close button
+          Positioned(
+            top: 40,
+            right: 40,
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                color: MNPColors.charcoal,
+                child: const Icon(Icons.close, color: MNPColors.white, size: 20),
+              ),
+            ),
+          ),
+          // Prev arrow
+          if (_index > 0)
+            Positioned(
+              left: 24,
+              top: 0,
+              bottom: 0,
+              child: Center(
+                child: GestureDetector(
+                  onTap: _prev,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    color: MNPColors.charcoal.withOpacity(0.7),
+                    child: const Icon(Icons.arrow_back_ios_new,
+                        color: MNPColors.white, size: 18),
+                  ),
                 ),
               ),
             ),
+          // Next arrow
+          if (_index < widget.items.length - 1)
             Positioned(
-              bottom: 40,
-              left: 40,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.item.category.toUpperCase(),
-                    style: GoogleFonts.lato(
-                      fontSize: 9,
-                      color: MNPColors.gold,
-                      letterSpacing: 3,
-                    ),
+              right: 24,
+              top: 0,
+              bottom: 0,
+              child: Center(
+                child: GestureDetector(
+                  onTap: _next,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    color: MNPColors.charcoal.withOpacity(0.7),
+                    child: const Icon(Icons.arrow_forward_ios,
+                        color: MNPColors.white, size: 18),
                   ),
-                  Text(
-                    widget.item.title,
-                    style: GoogleFonts.cormorantGaramond(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w300,
-                      color: MNPColors.white,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ],
-        ),
+          // Title + counter
+          Positioned(
+            bottom: 40,
+            left: 40,
+            right: 40,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        item.category.toUpperCase(),
+                        style: GoogleFonts.lato(
+                          fontSize: 9,
+                          color: MNPColors.gold,
+                          letterSpacing: 3,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        item.title,
+                        style: GoogleFonts.cormorantGaramond(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w300,
+                          color: MNPColors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  '${_index + 1} / ${widget.items.length}',
+                  style: GoogleFonts.lato(
+                    fontSize: 11,
+                    color: MNPColors.warmGrey,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
