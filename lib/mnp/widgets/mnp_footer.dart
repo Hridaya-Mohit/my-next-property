@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
+
+const _instagramUrl = 'https://www.instagram.com/mynextproperty.in';
 
 class _NavLink {
   final String label;
@@ -128,11 +131,11 @@ class MNPFooter extends StatelessWidget {
         const SizedBox(height: 24),
         Row(
           children: [
-            _socialIcon(Icons.link),
+            _socialIcon(Icons.link, url: null),
             const SizedBox(width: 16),
-            _socialIcon(Icons.camera_alt_outlined),
+            _socialIcon(Icons.camera_alt_outlined, url: _instagramUrl),
             const SizedBox(width: 16),
-            _socialIcon(Icons.alternate_email),
+            _socialIcon(Icons.alternate_email, url: null),
           ],
         ),
       ],
@@ -223,15 +226,25 @@ class MNPFooter extends StatelessWidget {
     );
   }
 
-  Widget _socialIcon(IconData icon) {
-    return Container(
-      width: 36,
-      height: 36,
-      decoration: BoxDecoration(
-        border: Border.all(color: MNPColors.charcoalMid),
-        shape: BoxShape.circle,
+  Widget _socialIcon(IconData icon, {required String? url}) {
+    final active = url != null;
+    return GestureDetector(
+      onTap: active ? () => launchUrl(Uri.parse(url)) : null,
+      child: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: active ? MNPColors.gold : MNPColors.charcoalMid,
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          color: active ? MNPColors.gold : MNPColors.warmGrey,
+          size: 16,
+        ),
       ),
-      child: Icon(icon, color: MNPColors.warmGrey, size: 16),
     );
   }
 
