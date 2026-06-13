@@ -119,11 +119,11 @@ class _MNPSplashState extends State<MNPSplash>
                       opacity: _logoOpacity,
                       child: Image.asset(
                         'assets/images/mnp_logo_without_bg_1.png',
-                        height: 80,
+                        height: 180,
                         fit: BoxFit.contain,
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    // const SizedBox(height: 24),
                     // Gold line — isolated AnimatedBuilder, only redraws the line
                     AnimatedBuilder(
                       animation: _lineWidth,
