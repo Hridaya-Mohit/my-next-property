@@ -107,6 +107,20 @@ class _LeadershipIntro extends StatelessWidget {
 }
 
 class _TeamSection extends StatelessWidget {
+  static const _vishal = _TeamMember(
+    name: 'Vishal Kathuria',
+    title: 'Director',
+    imageAsset: '',
+    experience: '15+ Years',
+    sector: 'NCR Real Estate',
+    stat1Label: 'Transactions Advised',
+    stat1Value: '₹2000 Cr+',
+    stat2Label: 'Recent Advisory',
+    stat2Value: '₹150 Cr+',
+    bio:
+        'A leader with over 15 years of distinguished experience across the real estate sector, Vishal Kathuria has facilitated significant strategic investments and identified early-stage investment corridors across the Gurugram–Delhi NCR belt. His institutional relationships with top developers give clients privileged access to pre-launch inventory and exclusive pricing.',
+  );
+
   @override
   Widget build(BuildContext context) {
     final hPad = MNPDimensions.horizontalPadding(context);
@@ -116,51 +130,15 @@ class _TeamSection extends StatelessWidget {
       color: MNPColors.ivoryDark,
       padding: EdgeInsets.symmetric(horizontal: hPad, vertical: 80),
       child: isDesktop
-          ? Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(child: _LeaderCard(member: _khalid)),
-                const SizedBox(width: 40),
-                Expanded(child: _LeaderCard(member: _tolani)),
-              ],
+          ? Center(
+              child: SizedBox(
+                width: 560,
+                child: _LeaderCard(member: _vishal),
+              ),
             )
-          : Column(
-              children: [
-                _LeaderCard(member: _khalid),
-                const SizedBox(height: 40),
-                _LeaderCard(member: _tolani),
-              ],
-            ),
+          : _LeaderCard(member: _vishal),
     );
   }
-
-  static const _khalid = _TeamMember(
-    name: 'Mohd. Khalid',
-    title: 'Founder & Director',
-    imageAsset: 'assets/urban_edge/images/mohd_khalid.png',
-    experience: '17+ Years',
-    sector: 'Automobiles & Real Estate',
-    stat1Label: 'Transactions Advised',
-    stat1Value: '₹2000 Cr+',
-    stat2Label: 'Recent Advisory',
-    stat2Value: '₹150 Cr+',
-    bio:
-        'A leader with 17 years of distinguished experience across the automobiles and real estate sectors, Mohd. Khalid has facilitated ₹150+ crore in strategic investments and identified early-stage investment corridors across the Gurugram–Delhi NCR belt. His institutional relationships with top developers give clients privileged access to pre-launch inventory and exclusive pricing.',
-  );
-
-  static const _tolani = _TeamMember(
-    name: 'Ramesh Tolani',
-    title: 'Director',
-    imageAsset: 'assets/urban_edge/images/ramesh_tolani.png',
-    experience: '15+ Years',
-    sector: 'NCR Real Estate',
-    stat1Label: 'Transactions Facilitated',
-    stat1Value: '₹1500 Cr+',
-    stat2Label: 'Years of Experience',
-    stat2Value: '15+',
-    bio:
-        'Ramesh Tolani brings strategic clarity and operational excellence to premium residential and investment portfolio management. Known for meticulous deal execution, he has guided HNIs, families, institutional investors, and NRI buyers through complex transactions with absolute discretion and precision.',
-  );
 }
 
 class _LeaderCard extends StatelessWidget {
