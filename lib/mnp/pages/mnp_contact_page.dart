@@ -1,9 +1,15 @@
+import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
 import '../widgets/mnp_page_scaffold.dart';
+
+const _emailJsServiceId  = 'service_2peaeac';
+const _emailJsTemplateId = 'template_ez8bw7d';
+const _emailJsPublicKey  = 'QGRb3w0XuoNKazAQZ';
 
 class MNPContactPage extends StatefulWidget {
   const MNPContactPage({super.key});
@@ -97,6 +103,8 @@ class _ContactBodyState extends State<_ContactBody> {
   final _messageCtrl = TextEditingController();
   String _requirement = 'Luxury Residential Advisory';
   bool _submitted = false;
+  bool _loading = false;
+  String? _error;
 
   @override
   void dispose() {
@@ -107,9 +115,37 @@ class _ContactBodyState extends State<_ContactBody> {
     super.dispose();
   }
 
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _submitted = true);
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() { _loading = true; _error = null; });
+
+    try {
+      final response = await http.post(
+        Uri.parse('https://api.emailjs.com/api/v1.0/email/send'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'service_id':  _emailJsServiceId,
+          'template_id': _emailJsTemplateId,
+          'user_id':     _emailJsPublicKey,
+          'template_params': {
+            'from_name':   _nameCtrl.text.trim(),
+            'from_email':  _emailCtrl.text.trim(),
+            'phone':       _phoneCtrl.text.trim(),
+            'requirement': _requirement,
+            'message':     _messageCtrl.text.trim(),
+          },
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        setState(() => _submitted = true);
+      } else {
+        setState(() => _error = 'Something went wrong. Please try again.');
+      }
+    } catch (_) {
+      setState(() => _error = 'Network error. Please check your connection.');
+    } finally {
+      setState(() => _loading = false);
     }
   }
 
@@ -249,23 +285,45 @@ class _ContactBodyState extends State<_ContactBody> {
           ),
           const SizedBox(height: 36),
           GestureDetector(
-            onTap: _submit,
+            onTap: _loading ? null : _submit,
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 18),
-              color: MNPColors.charcoal,
-              child: Text(
-                'SUBMIT ENQUIRY',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.lato(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                  color: MNPColors.white,
-                  letterSpacing: 3,
-                ),
-              ),
+              color: _loading ? MNPColors.warmGrey : MNPColors.charcoal,
+              child: _loading
+                  ? const Center(
+                      child: SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: MNPColors.white,
+                        ),
+                      ),
+                    )
+                  : Text(
+                      'SUBMIT ENQUIRY',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.lato(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: MNPColors.white,
+                        letterSpacing: 3,
+                      ),
+                    ),
             ),
           ),
+          if (_error != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              _error!,
+              style: GoogleFonts.lato(
+                fontSize: 12,
+                color: Colors.redAccent,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ],
           const SizedBox(height: 12),
           Text(
             'By submitting, you agree to our Privacy Policy. We will not share your information.',
