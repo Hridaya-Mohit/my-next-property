@@ -23,6 +23,7 @@ class MNPHomePage extends StatelessWidget {
           MNPAnimatedSection(child: _PhilosophySection()),
           MNPAnimatedSection(child: _ServicesSection()),
           MNPAnimatedSection(child: _DeveloperSection()),
+          MNPAnimatedSection(child: _TestimonialsSection()),
           MNPAnimatedSection(child: _CTASection()),
         ],
       ),
@@ -767,6 +768,167 @@ class _DeveloperSection extends StatelessWidget {
                 .toList(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ─── Testimonials ─────────────────────────────────────────────────────────────
+
+class _Testimonial {
+  final String quote;
+  final String name;
+  final String clientType;
+  const _Testimonial(this.quote, this.name, this.clientType);
+}
+
+class _TestimonialsSection extends StatelessWidget {
+  static const List<_Testimonial> _items = [
+    _Testimonial(
+      'My Next Property guided us through a complex commercial acquisition with exceptional discretion and market insight. A partner we trust implicitly.',
+      'Rajiv M.',
+      'Corporate Investor, Delhi',
+    ),
+    _Testimonial(
+      'Their pre-launch access to DLF inventory saved us months of search time and secured pricing unavailable elsewhere.',
+      'Priya S.',
+      'Luxury Residential Buyer, Gurugram',
+    ),
+    _Testimonial(
+      'As an NRI investor, having a trusted advisor on the ground was invaluable. Their counsel was precise, confidential, and results-driven.',
+      'Amit K.',
+      'NRI Investor, Dubai',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final hPad = MNPDimensions.horizontalPadding(context);
+    final isDesktop = MNPDimensions.isDesktop(context);
+    final isMobile = MNPDimensions.isMobile(context);
+
+    return Container(
+      color: MNPColors.ivory,
+      padding: EdgeInsets.symmetric(horizontal: hPad, vertical: 80),
+      child: Column(
+        children: [
+          _SectionLabel('CLIENT TESTIMONIALS'),
+          const SizedBox(height: 16),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Voices of ',
+                  style: MNPTextStyles.displayMedium(context),
+                ),
+                TextSpan(
+                  text: 'Trust',
+                  style: MNPTextStyles.italicMedium(context),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 60),
+          isDesktop
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _items
+                      .map((t) => Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: _TestimonialCard(testimonial: t),
+                            ),
+                          ))
+                      .toList(),
+                )
+              : Column(
+                  children: _items
+                      .map((t) => Padding(
+                            padding: const EdgeInsets.only(bottom: 24),
+                            child: _TestimonialCard(testimonial: t),
+                          ))
+                      .toList(),
+                ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TestimonialCard extends StatefulWidget {
+  final _Testimonial testimonial;
+  const _TestimonialCard({required this.testimonial});
+
+  @override
+  State<_TestimonialCard> createState() => _TestimonialCardState();
+}
+
+class _TestimonialCardState extends State<_TestimonialCard> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.all(36),
+        decoration: BoxDecoration(
+          color: _hovered ? MNPColors.charcoal : MNPColors.white,
+          border: Border.all(
+            color: _hovered ? MNPColors.gold : MNPColors.lightGrey,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '\u201C',
+              style: GoogleFonts.cormorantGaramond(
+                fontSize: 64,
+                fontWeight: FontWeight.w300,
+                color: MNPColors.gold,
+                height: 0.8,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              widget.testimonial.quote,
+              style: GoogleFonts.cormorantGaramond(
+                fontSize: 17,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+                color: _hovered ? MNPColors.white : MNPColors.charcoal,
+                height: 1.7,
+              ),
+            ),
+            const SizedBox(height: 28),
+            Container(width: 30, height: 1, color: MNPColors.gold),
+            const SizedBox(height: 16),
+            Text(
+              widget.testimonial.name,
+              style: GoogleFonts.lato(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: _hovered ? MNPColors.white : MNPColors.charcoal,
+                letterSpacing: 0.5,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              widget.testimonial.clientType,
+              style: GoogleFonts.lato(
+                fontSize: 11,
+                fontWeight: FontWeight.w300,
+                color: MNPColors.warmGrey,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
