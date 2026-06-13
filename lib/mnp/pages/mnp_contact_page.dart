@@ -100,7 +100,8 @@ class _ContactBody extends StatefulWidget {
   State<_ContactBody> createState() => _ContactBodyState();
 }
 
-class _ContactBodyState extends State<_ContactBody> {
+class _ContactBodyState extends State<_ContactBody>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _nameCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
@@ -111,17 +112,43 @@ class _ContactBodyState extends State<_ContactBody> {
   bool _loading = false;
   String? _error;
 
+  late final AnimationController _shakeController;
+  late final Animation<double> _shakeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _shakeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _shakeAnimation = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 0, end: -8), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: -8, end: 8), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: 8, end: -8), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: -8, end: 8), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: 8, end: 0), weight: 1),
+    ]).animate(CurvedAnimation(
+      parent: _shakeController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
   @override
   void dispose() {
     _nameCtrl.dispose();
     _emailCtrl.dispose();
     _phoneCtrl.dispose();
     _messageCtrl.dispose();
+    _shakeController.dispose();
     super.dispose();
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      _shakeController.forward(from: 0);
+      return;
+    }
     setState(() { _loading = true; _error = null; });
 
     try {
@@ -253,21 +280,35 @@ class _ContactBodyState extends State<_ContactBody> {
           _UETextField(
             label: 'Full Name',
             controller: _nameCtrl,
-            validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+            validator: (v) {
+              if (v == null || v.trim().isEmpty) return 'Name is required';
+              if (v.trim().length < 2) return 'Enter at least 2 characters';
+              return null;
+            },
           ),
           const SizedBox(height: 24),
           _UETextField(
             label: 'Email Address',
             controller: _emailCtrl,
             keyboardType: TextInputType.emailAddress,
-            validator: (v) =>
-                (v == null || !v.contains('@')) ? 'Enter valid email' : null,
+            validator: (v) {
+              if (v == null || v.trim().isEmpty) return 'Email is required';
+              final emailRegex = RegExp(r'^[\w\.\-]+@[\w\.\-]+\.\w{2,}$');
+              if (!emailRegex.hasMatch(v.trim())) return 'Enter a valid email address';
+              return null;
+            },
           ),
           const SizedBox(height: 24),
           _UETextField(
             label: 'Phone Number',
             controller: _phoneCtrl,
             keyboardType: TextInputType.phone,
+            validator: (v) {
+              if (v == null || v.trim().isEmpty) return null; // optional
+              final digits = v.replaceAll(RegExp(r'\D'), '');
+              if (digits.length < 10) return 'Enter a valid phone number';
+              return null;
+            },
           ),
           const SizedBox(height: 24),
           _UEDropdown(
@@ -290,33 +331,40 @@ class _ContactBodyState extends State<_ContactBody> {
             maxLines: 5,
           ),
           const SizedBox(height: 36),
-          GestureDetector(
-            onTap: _loading ? null : _submit,
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 18),
-              color: _loading ? MNPColors.warmGrey : MNPColors.charcoal,
-              child: _loading
-                  ? const Center(
-                      child: SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
+          AnimatedBuilder(
+            animation: _shakeAnimation,
+            builder: (ctx, child) => Transform.translate(
+              offset: Offset(_shakeAnimation.value, 0),
+              child: child,
+            ),
+            child: GestureDetector(
+              onTap: _loading ? null : _submit,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                color: _loading ? MNPColors.warmGrey : MNPColors.charcoal,
+                child: _loading
+                    ? const Center(
+                        child: SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: MNPColors.white,
+                          ),
+                        ),
+                      )
+                    : Text(
+                        'SUBMIT ENQUIRY',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.lato(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
                           color: MNPColors.white,
+                          letterSpacing: 3,
                         ),
                       ),
-                    )
-                  : Text(
-                      'SUBMIT ENQUIRY',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: MNPColors.white,
-                        letterSpacing: 3,
-                      ),
-                    ),
+              ),
             ),
           ),
           if (_error != null) ...[
@@ -565,17 +613,30 @@ class _UETextField extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             fillColor: MNPColors.white,
-            border: OutlineInputBorder(
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: const BorderSide(color: MNPColors.lightGrey),
+              borderSide: BorderSide(color: MNPColors.lightGrey),
             ),
-            enabledBorder: OutlineInputBorder(
+            enabledBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: const BorderSide(color: MNPColors.lightGrey),
+              borderSide: BorderSide(color: MNPColors.lightGrey),
             ),
-            focusedBorder: OutlineInputBorder(
+            focusedBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: const BorderSide(color: MNPColors.gold, width: 1.5),
+              borderSide: BorderSide(color: MNPColors.gold, width: 1.5),
+            ),
+            errorBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: Colors.redAccent, width: 1.5),
+            ),
+            focusedErrorBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: Colors.redAccent, width: 1.5),
+            ),
+            errorStyle: GoogleFonts.lato(
+              fontSize: 11,
+              fontWeight: FontWeight.w300,
+              color: Colors.redAccent,
             ),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
