@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
+import '../mnp_analytics.dart';
 
 const _whatsAppUrl = 'https://wa.me/919818812223?text=Hi%2C%20I%27d%20like%20to%20schedule%20a%20consultation%20regarding%20a%20property.';
 
@@ -142,7 +143,10 @@ class _MNPNavbarState extends State<MNPNavbar> {
 
   Widget _buildWhatsAppButton() {
     return GestureDetector(
-      onTap: () => launchUrl(Uri.parse(_whatsAppUrl)),
+      onTap: () {
+        trackEvent('cta_click', label: 'whatsapp_navbar');
+        launchUrl(Uri.parse(_whatsAppUrl));
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(

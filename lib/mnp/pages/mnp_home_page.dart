@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
+import '../mnp_analytics.dart';
 import '../widgets/mnp_page_scaffold.dart';
 
 class MNPHomePage extends StatelessWidget {
@@ -101,14 +102,18 @@ class _HeroSection extends StatelessWidget {
                         children: [
                           _PrimaryButton(
                             label: 'Schedule Consultation',
-                            onTap: () => Navigator.pushNamed(
-                                context, MNPRoutes.contact),
+                            onTap: () {
+                              trackEvent('cta_click', label: 'schedule_consultation_hero');
+                              Navigator.pushNamed(context, MNPRoutes.contact);
+                            },
                           ),
                           const SizedBox(height: 14),
                           _OutlineButton(
                             label: 'Explore Portfolio',
-                            onTap: () => Navigator.pushNamed(
-                                context, MNPRoutes.gallery),
+                            onTap: () {
+                              trackEvent('cta_click', label: 'explore_portfolio_hero');
+                              Navigator.pushNamed(context, MNPRoutes.gallery);
+                            },
                           ),
                         ],
                       )
@@ -116,14 +121,18 @@ class _HeroSection extends StatelessWidget {
                         children: [
                           _PrimaryButton(
                             label: 'Schedule Consultation',
-                            onTap: () => Navigator.pushNamed(
-                                context, MNPRoutes.contact),
+                            onTap: () {
+                              trackEvent('cta_click', label: 'schedule_consultation_hero');
+                              Navigator.pushNamed(context, MNPRoutes.contact);
+                            },
                           ),
                           const SizedBox(width: 20),
                           _OutlineButton(
                             label: 'Explore Portfolio',
-                            onTap: () => Navigator.pushNamed(
-                                context, MNPRoutes.gallery),
+                            onTap: () {
+                              trackEvent('cta_click', label: 'explore_portfolio_hero');
+                              Navigator.pushNamed(context, MNPRoutes.gallery);
+                            },
                           ),
                         ],
                       ),
@@ -393,7 +402,10 @@ class _PhilosophySection extends StatelessWidget {
         const SizedBox(height: 40),
         _OutlineButton(
           label: 'Discover Our Story',
-          onTap: () => Navigator.pushNamed(context, MNPRoutes.about),
+          onTap: () {
+            trackEvent('cta_click', label: 'discover_our_story');
+            Navigator.pushNamed(context, MNPRoutes.about);
+          },
           light: true,
         ),
       ],
@@ -475,7 +487,10 @@ class _ServicesSection extends StatelessWidget {
           const SizedBox(height: 48),
           _PrimaryButton(
             label: 'All Services',
-            onTap: () => Navigator.pushNamed(context, MNPRoutes.services),
+            onTap: () {
+              trackEvent('cta_click', label: 'all_services');
+              Navigator.pushNamed(context, MNPRoutes.services);
+            },
           ),
         ],
       ),
@@ -655,8 +670,10 @@ class _CTASection extends StatelessWidget {
                 const SizedBox(height: 40),
                 _PrimaryButton(
                   label: 'Schedule Now',
-                  onTap: () =>
-                      Navigator.pushNamed(context, MNPRoutes.contact),
+                  onTap: () {
+                    trackEvent('cta_click', label: 'schedule_now_cta_section');
+                    Navigator.pushNamed(context, MNPRoutes.contact);
+                  },
                 ),
               ],
             ),

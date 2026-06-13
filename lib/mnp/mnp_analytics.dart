@@ -18,6 +18,18 @@ void trackPageView(String path, String title) {
   }
 }
 
+void trackEvent(String eventName, {String? label}) {
+  try {
+    _gtag(
+      'event',
+      eventName,
+      {'event_label': label ?? eventName}.jsify()! as JSObject,
+    );
+  } catch (_) {
+    // gtag not available (e.g. during local development)
+  }
+}
+
 /// Fires a GA4 page_view event on every Flutter route change.
 ///
 /// The initial page_view is already fired by the gtag('config', ...) call in

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
+import '../mnp_analytics.dart';
 import '../widgets/mnp_page_scaffold.dart';
 
 const _whatsAppUrl = 'https://wa.me/919818812223?text=Hi%2C%20I%27d%20like%20to%20schedule%20a%20consultation%20regarding%20a%20property.';
@@ -141,6 +142,7 @@ class _ContactBodyState extends State<_ContactBody> {
       );
 
       if (response.statusCode == 200) {
+        trackEvent('form_submit', label: 'contact_enquiry');
         setState(() => _submitted = true);
       } else {
         setState(() => _error = 'Something went wrong. Please try again.');
@@ -393,7 +395,10 @@ class _ContactInfo extends StatelessWidget {
         const SizedBox(height: 48),
         // WhatsApp CTA
         GestureDetector(
-          onTap: () => launchUrl(Uri.parse(_whatsAppUrl)),
+          onTap: () {
+            trackEvent('cta_click', label: 'whatsapp_contact_page');
+            launchUrl(Uri.parse(_whatsAppUrl));
+          },
           child: Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 16),
