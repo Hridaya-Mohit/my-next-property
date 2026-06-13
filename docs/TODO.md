@@ -22,7 +22,7 @@ _Nothing currently in progress._
 
 ### Contact Page
 - [x] Form submission via EmailJS
-- [ ] Client-side form validation with visual feedback
+- [x] Client-side form validation with visual feedback
 
 ### Gallery Page
 - [ ] Lightbox / fullscreen image viewer
