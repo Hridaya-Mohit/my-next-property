@@ -61,7 +61,7 @@ class _MNPAnimatedSectionState extends State<MNPAnimatedSection>
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
-      key: key ?? ValueKey(widget.child.hashCode),
+      key: widget.key ?? ValueKey(widget.child.hashCode),
       onVisibilityChanged: _onVisibilityChanged,
       child: FadeTransition(
         opacity: _opacity,
