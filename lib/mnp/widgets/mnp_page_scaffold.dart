@@ -42,7 +42,7 @@ class _MNPPageScaffoldState extends State<MNPPageScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAF7F2),
-      endDrawer: const MNPDrawer(),
+      endDrawer: MNPDrawer(activePage: widget.activePage),
       body: Stack(
         children: [
           SingleChildScrollView(

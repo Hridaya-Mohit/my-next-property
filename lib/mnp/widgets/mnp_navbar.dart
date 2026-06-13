@@ -167,7 +167,8 @@ class _MNPNavbarState extends State<MNPNavbar> {
 }
 
 class MNPDrawer extends StatelessWidget {
-  const MNPDrawer({super.key});
+  final String activePage;
+  const MNPDrawer({super.key, required this.activePage});
 
   final List<_NavItem> _navItems = const [
     _NavItem('HOME', MNPRoutes.home),
@@ -224,7 +225,7 @@ class MNPDrawer extends StatelessWidget {
             ),
             Container(height: 1, color: MNPColors.charcoalMid),
             const SizedBox(height: 16),
-            ..._navItems.map((item) => _buildDrawerItem(context, item)),
+            ..._navItems.map((item) => _buildDrawerItem(context, item, item.route == activePage)),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.all(24),
@@ -260,7 +261,7 @@ class MNPDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildDrawerItem(BuildContext context, _NavItem item) {
+  Widget _buildDrawerItem(BuildContext context, _NavItem item, bool isActive) {
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);
@@ -269,12 +270,19 @@ class MNPDrawer extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        decoration: isActive
+            ? const BoxDecoration(
+                border: Border(
+                  left: BorderSide(color: MNPColors.gold, width: 2),
+                ),
+              )
+            : null,
         child: Text(
           item.label,
           style: GoogleFonts.lato(
             fontSize: 12,
-            fontWeight: FontWeight.w300,
-            color: MNPColors.white,
+            fontWeight: isActive ? FontWeight.w500 : FontWeight.w300,
+            color: isActive ? MNPColors.gold : MNPColors.white,
             letterSpacing: 3,
           ),
         ),
