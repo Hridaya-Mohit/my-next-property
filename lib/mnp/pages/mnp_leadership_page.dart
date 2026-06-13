@@ -110,7 +110,7 @@ class _TeamSection extends StatelessWidget {
   static const _vishal = _TeamMember(
     name: 'Vishal Kathuria',
     title: 'Director',
-    imageAsset: '',
+    imageAsset: 'assets/images/vishal_kathuria.jpeg',
     experience: '15+ Years',
     sector: 'NCR Real Estate',
     stat1Label: 'Transactions Advised',
