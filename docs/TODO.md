@@ -6,7 +6,7 @@ _Nothing currently in progress._
 ## Pending
 
 ### UX / Interactions
-- [ ] Scroll-triggered fade/slide-in animations for page sections
+- [x] Scroll-triggered fade/slide-in animations for page sections (all pages)
 - [ ] Animated statistics counter on home page (e.g. "500+ properties", "15+ years")
 - [ ] Smooth animated page transitions between routes
 - [x] Splash screen with gold line reveal animation
@@ -67,6 +67,7 @@ _Better long-term replacements for current implementations. Not urgent — revis
 - [x] GA4 + Microsoft Clarity analytics
 - [x] GA4 SPA page tracking via NavigatorObserver
 - [x] GA4 CTA event tracking (cta_click + form_submit)
+- [x] Scroll-triggered animations on all pages via MNPAnimatedSection
 - [x] Contact form submission via EmailJS
 - [x] WhatsApp buttons wired with pre-filled message
 - [x] Splash screen with gold line reveal animation
