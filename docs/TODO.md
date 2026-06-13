@@ -13,7 +13,7 @@ _Nothing currently in progress._
 - [x] Navbar background transition on scroll
 
 ### Navigation
-- [ ] Active state highlight in mobile drawer (currently missing)
+- [x] Active state highlight in mobile drawer (gold text + left border)
 
 ### Home Page
 - [ ] Add testimonials / client quotes section
