@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import '../theme/mnp_theme.dart';
 import '../mnp_app.dart';
 import '../mnp_analytics.dart';
@@ -17,6 +18,7 @@ class MNPHomePage extends StatelessWidget {
       body: Column(
         children: [
           _HeroSection(),
+          _StatsSection(),
           MNPAnimatedSection(child: _PortfolioSection()),
           MNPAnimatedSection(child: _PhilosophySection()),
           MNPAnimatedSection(child: _ServicesSection()),
@@ -166,6 +168,152 @@ class _HeroSection extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+// ─── Stats ────────────────────────────────────────────────────────────────────
+
+class _Stat {
+  final int value;
+  final String prefix;
+  final String suffix;
+  final String label;
+  const _Stat({
+    required this.value,
+    this.prefix = '',
+    this.suffix = '',
+    required this.label,
+  });
+}
+
+class _StatsSection extends StatefulWidget {
+  @override
+  State<_StatsSection> createState() => _StatsSectionState();
+}
+
+class _StatsSectionState extends State<_StatsSection>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final CurvedAnimation _curve;
+  bool _triggered = false;
+
+  static const _stats = [
+    _Stat(value: 15, suffix: '+', label: 'Years of\nExperience'),
+    _Stat(prefix: '₹', value: 2000, suffix: ' Cr+', label: 'In Transactions\nAdvised'),
+    _Stat(value: 8, suffix: '+', label: 'Developer\nAssociations'),
+    _Stat(value: 500, suffix: '+', label: 'Clients\nServed'),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2200),
+    );
+    _curve = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
+  }
+
+  @override
+  void dispose() {
+    _curve.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onVisibility(VisibilityInfo info) {
+    if (!_triggered && info.visibleFraction > 0.2) {
+      _triggered = true;
+      _controller.forward();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hPad = MNPDimensions.horizontalPadding(context);
+    final isMobile = MNPDimensions.isMobile(context);
+
+    return VisibilityDetector(
+      key: const ValueKey('stats_section'),
+      onVisibilityChanged: _onVisibility,
+      child: Container(
+        color: MNPColors.sectionDark,
+        padding: EdgeInsets.symmetric(horizontal: hPad, vertical: 60),
+        child: isMobile
+            ? GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                childAspectRatio: 1.8,
+                children: _stats
+                    .map((s) => _CounterTile(stat: s, animation: _curve))
+                    .toList(),
+              )
+            : Row(
+                children: _stats.asMap().entries.map((e) {
+                  final isLast = e.key == _stats.length - 1;
+                  return Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _CounterTile(
+                              stat: e.value, animation: _curve),
+                        ),
+                        if (!isLast)
+                          Container(
+                            width: 1,
+                            height: 60,
+                            color: MNPColors.charcoalMid,
+                          ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+      ),
+    );
+  }
+}
+
+class _CounterTile extends StatelessWidget {
+  final _Stat stat;
+  final Animation<double> animation;
+  const _CounterTile({required this.stat, required this.animation});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (context, _) {
+        final current = (stat.value * animation.value).round();
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${stat.prefix}$current${stat.suffix}',
+              style: GoogleFonts.cormorantGaramond(
+                fontSize: MNPDimensions.isDesktop(context) ? 48 : 36,
+                fontWeight: FontWeight.w300,
+                color: MNPColors.gold,
+                letterSpacing: 1,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              stat.label,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.lato(
+                fontSize: 11,
+                fontWeight: FontWeight.w400,
+                color: MNPColors.warmGrey,
+                letterSpacing: 1.5,
+                height: 1.6,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
