@@ -1,11 +1,11 @@
 {
-    "name": "my_next_property",
-    "short_name": "my_next_property",
+    "name": "My Next Property",
+    "short_name": "MNP",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#1A1A1A",
+    "theme_color": "#C9A96E",
+    "description": "My Next Property — Premium real estate advisory for luxury residential, commercial & industrial assets across Delhi NCR.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
