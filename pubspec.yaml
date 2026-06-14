@@ -1,5 +1,5 @@
 name: my_next_property
-description: "A new Flutter project."
+description: "My Next Property — Premium real estate advisory for luxury residential, commercial & industrial assets across Delhi NCR."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

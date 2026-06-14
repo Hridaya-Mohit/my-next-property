@@ -1,17 +1,25 @@
-# my_next_property
+# My Next Property
 
-A new Flutter project.
+Premium real estate advisory website for luxury residential, commercial & industrial assets across Delhi NCR.
 
-## Getting Started
+**Live site:** [mynextproperty.in](https://mynextproperty.in)
 
-This project is a starting point for a Flutter application.
+## Tech Stack
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter Web
+- GitHub Actions (CI/CD)
+- GitHub Pages + Custom Domain
+- EmailJS (contact form)
+- Google Analytics GA4
+- Microsoft Clarity
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Development
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter pub get
+flutter run -d chrome
+```
+
+## Deployment
+
+Pushes to `main` automatically deploy via GitHub Actions to `mynextproperty.in`.
